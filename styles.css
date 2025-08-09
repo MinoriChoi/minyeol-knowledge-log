@@ -865,3 +865,58 @@ body {
         font-size: 12px;
     }
 }
+/* 구독 블로그 폴더 스타일 */
+.subscription-folder {
+    background: #f8f9fa;
+    border-left: 3px solid #28a745;
+}
+
+.subscription-folder .folder-icon {
+    color: #28a745;
+}
+
+.subscription-folder .folder-name {
+    color: #495057;
+}
+
+.unsubscribe-btn {
+    padding: 4px 8px;
+    background: #dc3545;
+    color: white;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    font-size: 10px;
+    transition: background-color 0.3s;
+    opacity: 0;
+    transition: opacity 0.2s;
+}
+
+.subscription-folder:hover .unsubscribe-btn {
+    opacity: 1;
+}
+
+.unsubscribe-btn:hover {
+    background: #c82333;
+}
+
+/* 구독 블로그 구분선 */
+.subscription-divider {
+    height: 1px;
+    background: #dee2e6;
+    margin: 15px 0;
+    position: relative;
+}
+
+.subscription-divider::after {
+    content: "구독 블로그";
+    position: absolute;
+    top: -8px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: white;
+    padding: 0 10px;
+    font-size: 11px;
+    color: #6c757d;
+    font-weight: 500;
+}
