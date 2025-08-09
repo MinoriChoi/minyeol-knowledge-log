@@ -1293,3 +1293,115 @@ async function saveUserData() {
         saveData();
     }
 }
+// 구독한 블로그들을 폴더로 표시하는 함수
+function displaySubscriptionFolders() {
+    const folderList = document.getElementById('folderList');
+    
+    // 기존 사용자 폴더들 유지
+    const userFolders = Array.from(folderList.children).filter(folder => 
+        !folder.classList.contains('subscription-folder')
+    );
+    
+    // 폴더 목록 초기화
+    folderList.innerHTML = '';
+    
+    // 사용자 폴더들 다시 추가
+    userFolders.forEach(folder => folderList.appendChild(folder));
+    
+    // 구독 블로그 구분선 추가
+    if (subscriptions.length > 0) {
+        const divider = document.createElement('div');
+        divider.className = 'subscription-divider';
+        folderList.appendChild(divider);
+        
+        // 구독한 블로그들을 폴더로 추가
+        subscriptions.forEach(subscription => {
+            const subscriptionFolder = createSubscriptionFolder(subscription);
+            folderList.appendChild(subscriptionFolder);
+        });
+    }
+}
+
+// 구독 블로그 폴더 생성
+function createSubscriptionFolder(subscription) {
+    const folderDiv = document.createElement('div');
+    folderDiv.className = 'folder-item subscription-folder';
+    folderDiv.onclick = () => selectFolder(subscription.url, subscription.title);
+    
+    folderDiv.innerHTML = `
+        <span class="folder-icon">📰</span>
+        <span class="folder-name">${subscription.title || subscription.url}</span>
+        <span class="folder-count">${subscription.posts ? subscription.posts.length : 0}</span>
+        <button class="unsubscribe-btn" onclick="unsubscribeFromBlog('${subscription.url}', event)">
+            구독취소
+        </button>
+    `;
+    
+    return folderDiv;
+}
+
+// 구독 취소 함수
+function unsubscribeFromBlog(blogUrl, event) {
+    event.stopPropagation(); // 폴더 클릭 이벤트 방지
+    
+    if (confirm('정말로 이 블로그 구독을 취소하시겠습니까?')) {
+        // 구독 목록에서 제거
+        subscriptions = subscriptions.filter(sub => sub.url !== blogUrl);
+        
+        // 로컬 스토리지 업데이트
+        localStorage.setItem('subscriptions', JSON.stringify(subscriptions));
+        
+        // 폴더 목록 새로고침
+        displaySubscriptionFolders();
+        
+        // 글 목록도 새로고침
+        refreshPosts();
+        
+        alert('구독이 취소되었습니다.');
+    }
+}
+
+// 기존 subscribeToBlog 함수 수정
+function subscribeToBlog() {
+    const blogUrl = document.getElementById('blogUrl').value.trim();
+    if (!blogUrl) {
+        alert('블로그 URL을 입력해주세요.');
+        return;
+    }
+    
+    // 이미 구독 중인지 확인
+    if (subscriptions.some(sub => sub.url === blogUrl)) {
+        alert('이미 구독 중인 블로그입니다.');
+        return;
+    }
+    
+    // 새 구독 추가
+    const newSubscription = {
+        url: blogUrl,
+        title: blogUrl,
+        posts: [],
+        lastChecked: new Date().toISOString()
+    };
+    
+    subscriptions.push(newSubscription);
+    localStorage.setItem('subscriptions', JSON.stringify(subscriptions));
+    
+    // URL 입력 필드 초기화
+    document.getElementById('blogUrl').value = '';
+    
+    // 폴더 목록 새로고침
+    displaySubscriptionFolders();
+    
+    // 글 가져오기 시작
+    fetchPostsFromBlog(blogUrl);
+    
+    alert('구독이 추가되었습니다!');
+}
+
+// 페이지 로드 시 구독 폴더들 표시
+document.addEventListener('DOMContentLoaded', function() {
+    // 기존 초기화 코드...
+    
+    // 구독 폴더들 표시
+    displaySubscriptionFolders();
+});
