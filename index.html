@@ -6,16 +6,27 @@
     <title>민열지식로그</title>
     <link rel="stylesheet" href="styles.css">
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&display=swap" rel="stylesheet">
     <link rel="icon" type="image/svg+xml" href="favicon.svg">
 </head>
 <body>
     <div class="container">
         <!-- 상단 구독 영역 -->
         <div class="header">
+            <!-- 로고와 타이틀 (중앙) -->
+            <div class="logo-title-section">
+                <img src="favicon.svg" alt="로고" class="logo-icon">
+                <h1 class="main-title">민열지식로그</h1>
+            </div>
+            
+            <!-- 구독 영역 (우측) -->
             <div class="subscription-section">
                 <input type="text" id="blogUrl" placeholder="블로그 URL을 입력하세요" />
                 <button onclick="subscribeToBlog()">구독</button>
             </div>
+            
+            <!-- 버튼들 (우측) -->
             <div class="header-buttons">
                 <button id="loginBtn" class="login-btn" onclick="loginWithGitHub()">GitHub 로그인</button>
                 <button id="userInfo" class="user-info" style="display: none;">
@@ -94,7 +105,7 @@
         <div class="modal-content">
             <span class="close">&times;</span>
             <h2 id="modalTitle">제목</h2>
-            <div id="modalContent"></div>
+            <div id="modalContent">내용</div>
         </div>
     </div>
 
