@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>민열지식로그</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+</head>
+<body>
+    <div class="container">
+        <!-- 상단 구독 영역 -->
+        <div class="header">
+            <div class="subscription-section">
+                <input type="text" id="blogUrl" placeholder="블로그 URL을 입력하세요" />
+                <button onclick="subscribeToBlog()">구독</button>
+            </div>
+            <div class="header-buttons">
+                <button id="loginBtn" class="login-btn" onclick="loginWithGitHub()">GitHub 로그인</button>
+                <button id="userInfo" class="user-info" style="display: none;">
+                    <span id="userName"></span>
+                    <button onclick="logout()" class="logout-btn">로그아웃</button>
+                </button>
+                <button onclick="refreshPosts()">최신화</button>
+            </div>
+        </div>
+
+        <!-- 메인 콘텐츠 영역 -->
+        <div class="main-content">
+            <!-- 왼쪽 블록: 폴더 관리 -->
+            <div class="left-panel">
+                <div class="panel-header">
+                    <h3>폴더</h3>
+                    <div class="folder-header-actions">
+                        <button class="all-subscriptions-btn" id="allSubscriptionsBtn" title="전체 구독 목록">📋</button>
+                        <button id="addFolderBtn" class="add-btn">+ 새 폴더</button>
+                    </div>
+                </div>
+                <div class="folder-list" id="folderList">
+                    <!-- 폴더들이 여기에 동적으로 추가됩니다 -->
+                </div>
+            </div>
+
+            <!-- 가운데 블록: 글 목록 -->
+            <div class="center-panel">
+                <div class="panel-header">
+                    <h3 id="centerPanelTitle">모든 글</h3>
+                    <div class="sort-options">
+                        <select id="sortSelect">
+                            <option value="latest">최신순</option>
+                            <option value="oldest">오래된순</option>
+                            <option value="title">제목순</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="post-list" id="postList">
+                    <!-- 글들이 여기에 동적으로 추가됩니다 -->
+                </div>
+                <!-- 포스트 내용 표시 영역 (iframe 방식) -->
+                <div class="post-content" id="postContent" style="display: none;">
+                    <div class="post-header-info">
+                        <button class="back-btn" onclick="backToPostList()">← 목록으로</button>
+                        <div class="post-date-author" id="postDateAuthor"></div>
+                        <div class="post-actions">
+                            <a class="post-original-link" id="postOriginalLink" target="_blank">
+                                <button class="original-link-btn">원본 보기</button>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="iframe-container" id="iframeContainer">
+                        <iframe id="postIframe" frameborder="0" allowfullscreen></iframe>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 오른쪽 블록: 메모 -->
+            <div class="right-panel">
+                <div class="panel-header">
+                    <h3>메모</h3>
+                    <div class="memo-header-actions">
+                        <button id="saveMemoBtn" class="save-btn">저장</button>
+                    </div>
+                </div>
+                <div class="memo-area">
+                    <textarea id="memoText" placeholder="메모를 입력하세요..."></textarea>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 모달 -->
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2 id="modalTitle">제목</h2>
+            <div id="modalContent"></div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
